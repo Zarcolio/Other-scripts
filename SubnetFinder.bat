@@ -14,12 +14,12 @@ IF "%USERDNSDOMAIN%"=="" ECHO This computer doesn't seem to be domain-joined...
 IF "%USERDNSDOMAIN%"=="" GOTO skipDomain
 SET LookupDomain=%USERDNSDOMAIN%
 :manualDomain
-	nslookup %LookupDomain%>>%OutputFile%
+	NSLOOKUP %LookupDomain%>>%OutputFile%
 	
-	nslookup -type=srv _kerberos._tcp.%LookupDomain%>>%OutputFile%
-	nslookup -type=srv _kpasswd._tcp.%LookupDomain%>>%OutputFile%
-	nslookup -type=srv _ldap._tcp.%LookupDomain%>>%OutputFile%
-	nslookup -type=srv _ldap._tcp.dc._msdcs.%LookupDomain%>>%OutputFile%
+	NSLOOKUP -type=srv _kerberos._tcp.%LookupDomain%>>%OutputFile%
+	NSLOOKUP -type=srv _kpasswd._tcp.%LookupDomain%>>%OutputFile%
+	NSLOOKUP -type=srv _ldap._tcp.%LookupDomain%>>%OutputFile%
+	NSLOOKUP -type=srv _ldap._tcp.dc._msdcs.%LookupDomain%>>%OutputFile%
 	
 	TRACERT -h 2 %LookupDomain%>>%OutputFile%
 :skipDomain
