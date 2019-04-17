@@ -1,10 +1,12 @@
 @ECHO OFF
-SET OutputFile=IPSubnetFinder.txt
+IF NOT "%1"=="" SET LookupDomain=%1
+IF "%1"=="" SET LookupDomain=%USERDNSDOMAIN%
+
+SET OutputFile=SubnetFinder-%LookupDomain%.txt
 IPCONFIG /all>%OutputFile%
 ROUTE PRINT>>%OutputFile%
 TRACERT -h 2 8.8.8.8>>%OutputFile%
 
-IF NOT "%1"=="" SET LookupDomain=%1
 IF NOT "%1"=="" GOTO manualDomain
 
 IF "%USERDOMAIN%"==AzureAD ECHO This computer is connected to AzureAD...
@@ -12,7 +14,6 @@ IF "%LOGONSERVER%"=="\\%COMPUTERNAME%" ECHO This computer doesn't seem to be dom
 IF "%LOGONSERVER%"=="\\%COMPUTERNAME%" GOTO skipDomain
 IF "%USERDNSDOMAIN%"=="" ECHO This computer doesn't seem to be domain-joined...
 IF "%USERDNSDOMAIN%"=="" GOTO skipDomain
-SET LookupDomain=%USERDNSDOMAIN%
 :manualDomain
 	NSLOOKUP %LookupDomain%>>%OutputFile%
 	
@@ -22,4 +23,5 @@ SET LookupDomain=%USERDNSDOMAIN%
 	NSLOOKUP -type=srv _ldap._tcp.dc._msdcs.%LookupDomain%>>%OutputFile%
 	
 	TRACERT -h 2 %LookupDomain%>>%OutputFile%
+	
 :skipDomain
