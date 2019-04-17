@@ -21,4 +21,5 @@ SET LookupDomain=%USERDNSDOMAIN%
 	nslookup -type=srv _ldap._tcp.%LookupDomain%>>%OutputFile%
 	nslookup -type=srv _ldap._tcp.dc._msdcs.%LookupDomain%>>%OutputFile%
 	
+	TRACERT -h 2 %LookupDomain%>>%OutputFile%
 :skipDomain
