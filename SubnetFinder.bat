@@ -5,6 +5,7 @@ IF "%1"=="" SET LookupDomain=%USERDNSDOMAIN%
 SET OutputFile=SubnetFinder-%LookupDomain%.txt
 IPCONFIG /all>%OutputFile%
 ROUTE PRINT>>%OutputFile%
+ARP -a>>%OutputFile%
 TRACERT -h 2 8.8.8.8>>%OutputFile%
 
 IF NOT "%1"=="" GOTO manualDomain
