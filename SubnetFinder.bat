@@ -2,7 +2,7 @@
 SET OutputFile=IPSubnetFinder.txt
 IPCONFIG /all>%OutputFile%
 ROUTE PRINT>>%OutputFile%
-REM TRACERT 8.8.8.8>>%OutputFile%
+TRACERT 8.8.8.8>>%OutputFile%
 
 IF NOT "%1"=="" SET LookupDomain=%1
 IF NOT "%1"=="" GOTO manualDomain
